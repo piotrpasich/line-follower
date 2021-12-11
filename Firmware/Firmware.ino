@@ -18,9 +18,9 @@
 
 #define FORWARD 0
 #define BACKWARD 1
-#define MAX_SPEED 200
-int multiplier = 0.5;
-int GO_BACK_MULTIPLIER = 0.6;
+#define MAX_SPEED 250
+double multiplier = 0.4;
+double GO_BACK_MULTIPLIER = 0.7;
 
 
 // Global variables and defines
@@ -51,7 +51,6 @@ void setup()
 
 bool leftLineCrossed = false;
 bool rightLineCrossed = false; 
-int turnNo = 0;
 void loop() 
 {
     bool leftSensor = digitalRead(IRLINEFOLLOW_2_PIN_OUT);
@@ -69,7 +68,7 @@ void loop()
     if (rightSensor) {
       rightLineCrossed = true;
     }
-    if (centerSensor) {
+    if (centerSensor && (rightLineCrossed || leftLineCrossed)) {
       if (leftLineCrossed) {
         rightMotorSpeed = MAX_SPEED * GO_BACK_MULTIPLIER;
         leftMotorSpeed = MAX_SPEED;
@@ -80,7 +79,8 @@ void loop()
       }
       dcMotorDriverL298.setMotorA(rightMotorSpeed, FORWARD);
       dcMotorDriverL298.setMotorB(leftMotorSpeed, FORWARD);
-      //delay((leftLineCrossedTime + rightLineCrossedTime) / 2);
+      Serial.println("BACK");
+      delay(200);
       leftLineCrossed = false;
       rightLineCrossed = false;
     }
@@ -95,7 +95,6 @@ void loop()
         rightMotorSpeed = MAX_SPEED * GO_BACK_MULTIPLIER;
         leftMotorSpeed = MAX_SPEED;
       } 
-      turnNo++;
     } 
 
     
@@ -109,8 +108,6 @@ void loop()
     Serial.print(rightSensor);
     Serial.print("|");
     Serial.print(rightMotorSpeed);
-    Serial.print("|");
-    Serial.print(turnNo);
     Serial.print("|");
     Serial.print(MULTIPLIER);
     Serial.print("|");
