@@ -78,6 +78,7 @@ void loop()
       leftMotorSpeed = 0;
       rightMotorSpeed = rightMotorSpeed * maxSpeedMultiplier;
     }
+    
 
        
     Serial.println("|:");
@@ -94,16 +95,9 @@ void loop()
     Serial.print(maxSpeedMultiplier);
     Serial.print("|");
     
-//    dcMotorDriverL298.setMotorA(rightMotorSpeed, FORWARD);
-  
-//    dcMotorDriverL298.setMotorB(leftMotorSpeed, FORWARD);
     analogWrite(DCMOTORDRIVERL298_PIN_INT1, rightMotorSpeed);
     digitalWrite(DCMOTORDRIVERL298_PIN_INT2, LOW);
     
     analogWrite(DCMOTORDRIVERL298_PIN_INT3, leftMotorSpeed);
     digitalWrite(DCMOTORDRIVERL298_PIN_INT4, LOW);
-    //delay(1);
-    //Stop both motors
-    //dcMotorDriverL298.stopMotors();
-    //delay(200);    
 }
