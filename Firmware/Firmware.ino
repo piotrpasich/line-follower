@@ -23,8 +23,6 @@ double multiplier = 0.01;
 double maxSpeedMultiplier = 0.4;
 double GO_BACK_MULTIPLIER = 0.0;
 
-int tor = 1;
-
 // Global variables and defines
 
 // object initialization
@@ -78,6 +76,10 @@ void loop()
       leftMotorSpeed = 0;
       rightMotorSpeed = rightMotorSpeed * maxSpeedMultiplier;
     }
+    if (centerSensor) {
+       rightMotorSpeed = MAX_SPEED;
+       leftMotorSpeed = MAX_SPEED;
+    }
 
        
     Serial.println("|:");
@@ -91,19 +93,10 @@ void loop()
     Serial.print("|rs");
     Serial.print(rightMotorSpeed);
     Serial.print("|");
-    Serial.print(maxSpeedMultiplier);
-    Serial.print("|");
-    
-//    dcMotorDriverL298.setMotorA(rightMotorSpeed, FORWARD);
-  
-//    dcMotorDriverL298.setMotorB(leftMotorSpeed, FORWARD);
-    analogWrite(DCMOTORDRIVERL298_PIN_INT1, rightMotorSpeed);
+    analogWrite(DCMOTORDRIVERL298_PIN_INT1, leftMotorSpeed);
     digitalWrite(DCMOTORDRIVERL298_PIN_INT2, LOW);
     
-    analogWrite(DCMOTORDRIVERL298_PIN_INT3, leftMotorSpeed);
-    digitalWrite(DCMOTORDRIVERL298_PIN_INT4, LOW);
-    //delay(1);
-    //Stop both motors
-    //dcMotorDriverL298.stopMotors();
-    //delay(200);    
+    analogWrite(DCMOTORDRIVERL298_PIN_INT3, rightMotorSpeed);
+    digitalWrite(DCMOTORDRIVERL298_PIN_INT4, LOW);  
+    
 }
